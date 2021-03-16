@@ -38,7 +38,7 @@ def main() :
   #delete data
   for i in data[:, 1] :
      if i == -99.000 or i == -999.000 :
-        np.delete(data, i, 0)
+        i = 0
 
   tar = ['C0A880','C0F9A0','C0G640','C0R190','C0X260']
   sum_r = find_sum(tar, data)
