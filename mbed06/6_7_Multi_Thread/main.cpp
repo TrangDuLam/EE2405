@@ -2,7 +2,7 @@
 using namespace std::chrono;
  
 DigitalOut led1(LED1);
-DigitalOut led2(LED2);
+DigitalOut led2(LED3);
 Thread thread;
  
 void led2_thread()
@@ -10,7 +10,7 @@ void led2_thread()
     while (true)
     {
       led2 = !led2;
-      ThisThread::sleep_for(1s);
+      ThisThread::sleep_for(500ms);
     }
  }
  
