@@ -8,10 +8,16 @@ InterruptIn btn(USER_BUTTON);
  
 EventQueue printfQueue;
 EventQueue eventQueue;
- 
+
+void erdogan(){
+	printf("Erdogan\r\n");
+  }
+
 void blink_led2() {
   // this runs in the normal priority thread
   led2 = !led2;
+  printfQueue.call(&erdogan);
+  
  }
  
 void print_toggle_led() {
@@ -24,6 +30,8 @@ void btn_fall_irq() {
    // defer the printf call to the low priority thread
    printfQueue.call(&print_toggle_led);
    }
+
+
  
 int main() {
  
