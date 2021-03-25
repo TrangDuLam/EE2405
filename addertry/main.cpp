@@ -7,7 +7,7 @@ DigitalIn mypin3(PB_0);  //D3
 
 int main(){
 
-    int i = 0, add, minus;
+    int i = 0, add, minus, permit;
 
     while(1){
 
@@ -17,22 +17,33 @@ int main(){
         i = i + add;
         i = i - minus;
 
-        if (i < 1){
+
+        
+        if (i <= 0){
+            i = 0;
             printf("%d\r\n", i);
             printf("lowest freq !\r\n");
-
-            i = 0;
         }
-        else if (i > 6){
+        else if (i >= 7){
+            i = 7;
             printf("%d\r\n", i);
             printf("highest freq !\r\n");
-
-            i = 7;
         }
         else{
             printf("%d\r\n", i);
         }
-        ThisThread::sleep_for(1618ms);
+        
+
+        /*
+        permit = mypin3.read();
+
+        while(permit){
+            printf("%d\r\n",i);
+            ThisThread::sleep_for(1s);
+            permit = 0;
+        }
+        */
+        ThisThread::sleep_for(809ms);
 
 
     }
