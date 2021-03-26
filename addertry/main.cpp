@@ -13,6 +13,7 @@ int main(){
 
         add = mypin1.read();
         minus = mypin2.read();
+        
 
         i = i + add;
         i = i - minus;
@@ -33,16 +34,14 @@ int main(){
             printf("%d\r\n", i);
         }
         
-
-        /*
         permit = mypin3.read();
 
         while(permit){
-            printf("%d\r\n",i);
+            printf("Output %d\r\n",i);
             ThisThread::sleep_for(1s);
             permit = 0;
         }
-        */
+    
         ThisThread::sleep_for(809ms);
 
 
