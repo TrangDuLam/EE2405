@@ -1,8 +1,13 @@
 #include "mbed.h"
 
-AnalogOut aout(PA_4);
+AnalogOut aout(PA_4);  //D7
+AnalogIn Ain(A0);  //D1
 
 const double peak = 0.91f;
+int sample = 128;
+int j;
+ 
+float ADCdata[128];
 
 void wave(float freq){
 
@@ -23,10 +28,21 @@ void wave(float freq){
 
 int main(){
 
-      float fqidx = 0.001 * 3;
+      float fqidx = 0.0001 * 3;
 
       while(1){
-            wave(fqidx);
+            
+            //using J~~~
+            for (j = 0; j < sample; j++){
+                wave(fqidx);
+                ADCdata[j] = Ain;
+                ThisThread::sleep_for(10ms/sample);
+              }
+            
+            for (j = 0; j < sample; j++){
+                printf("%f\r\n", ADCdata[j]);
+                ThisThread::sleep_for(1ms);
+             }
             }
     }
 

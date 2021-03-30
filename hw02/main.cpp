@@ -131,7 +131,7 @@ int main(){
         permit = mypin3.read();
 
         while(permit){
-
+            permit = 1;
             int row, col;
 
             row = i % 4;
@@ -151,12 +151,13 @@ int main(){
             
             uLCD.color(RED);
             
-            fqidx = 0.1 * i;  //0.0001 = 5Hz
-            wave(fqidx);
+            fqidx = 0.0001 * i;  //0.0001 = 5Hz
+            
 
             
             //using J~~~
             for (j = 0; j < sample; j++){
+                wave(fqidx);
                 ADCdata[j] = Ain;
                 ThisThread::sleep_for(1000ms/sample);
               }
@@ -168,11 +169,14 @@ int main(){
             
             
             if (mypin2.read()){   //cutting point
-                permit = 0;
+                break;
             }
             
             //uLCD.printf("\r\n");
         }
+
+
+        
 
         ThisThread::sleep_for(809ms);
         uLCD.cls();
