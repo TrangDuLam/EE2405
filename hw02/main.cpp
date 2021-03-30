@@ -4,7 +4,7 @@
 DigitalIn mypin1(PB_2);  //D8
 DigitalIn mypin2(PB_1);  //D6
 DigitalIn mypin3(PB_0);  //D3
-//uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
+uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
 
 AnalogOut aout(PA_4);  //D7
 
@@ -56,49 +56,101 @@ int main(){
         if (i <= 0){
             i = 0;
             
-            printf("%d\r\n", i);
-            /*
-            uLCD.printf("lowest freq !\r\n");
             uLCD.text_width(4); //4X size text
             uLCD.text_height(4);
-            uLCD.locate(1,2);
-            uLCD.color(RED);
+            uLCD.locate(0, 0);
+            uLCD.printf("%d\r\n", i);
+            uLCD.locate(0, 3);
+            uLCD.printf("N");
+            uLCD.locate(1, 3);
+            uLCD.printf("O");
+            uLCD.locate(2, 3);
+            uLCD.printf("N");
+
+            /*
+            uLCD.text_width(1); //4X size text
+            uLCD.text_height(1);
+            uLCD.locate(7, 7);
+            uLCD.printf("lowest freq !\r\n");
             */
+            uLCD.color(RED);
+            
         }
         else if (i >= 7){
             i = 7;
-            
-            printf("%d\r\n", i);
-            /*
-            uLCD.printf("highest freq !\r\n");
             uLCD.text_width(4); //4X size text
             uLCD.text_height(4);
-            uLCD.locate(1,2);
-            uLCD.color(RED);
+            uLCD.locate(3, 1);
+            uLCD.printf("%d\r\n", i);
+            uLCD.locate(0, 3);
+            uLCD.printf("H");
+            uLCD.locate(1, 3);
+            uLCD.printf("I");
+            uLCD.locate(2, 3);
+            uLCD.printf("G");
+            uLCD.locate(3, 3);
+            uLCD.printf("H");
+
+            
+            /*
+            uLCD.text_width(1); //4X size text
+            uLCD.text_height(1);
+            uLCD.locate(7, 7);
+            uLCD.printf("highest freq !\r\n");
             */
+            
+            uLCD.color(RED);
+            
         }
         else{
+    
+            if (i > 0 && i < 4){
+                uLCD.text_width(4); //4X size text
+                uLCD.text_height(4);
+                uLCD.locate(i,0);
+                uLCD.printf("%d\r\n", i);
+                uLCD.color(RED);
+            }
+
             
-            printf("%d\r\n", i);
-            /*
-            uLCD.text_width(4); //4X size text
-            uLCD.text_height(4);
-            uLCD.locate(1,2);
-            uLCD.color(RED);
-            */
+
+            
+            else if (i > 3 && i < 7){
+                
+                uLCD.text_width(4); //4X size text
+                uLCD.text_height(4);
+                uLCD.locate(i - 4, 1);
+                uLCD.printf("%d\r\n", i);
+                uLCD.color(RED);
+
+            }
+            
+            
         }
         
         permit = mypin3.read();
 
         while(permit){
+
+            int row, col;
+
+            row = i % 4;
+            col = i / 4;
             
-            //printf("Output %d\r\n",i);
-            /*
+            uLCD.cls();
             uLCD.text_width(4); //4X size text
             uLCD.text_height(4);
-            uLCD.locate(1,2);
+            uLCD.locate(row , col);
+            uLCD.printf("%d\r\n", i);
+            uLCD.locate(2, 2);
+            uLCD.printf("O");
+            uLCD.locate(3, 2);
+            uLCD.printf("N");
+            
+            
+            
             uLCD.color(RED);
-            */
+            
             fqidx = 0.1 * i;  //0.0001 = 5Hz
             wave(fqidx);
 
@@ -123,7 +175,7 @@ int main(){
         }
 
         ThisThread::sleep_for(809ms);
-
+        uLCD.cls();
 
     }
 
