@@ -12,10 +12,10 @@ const double peak = 0.91f;
 
 AnalogIn Ain(A0);  //D1
 
-int sample = 128;
+int sample = 512;
 int j;
  
-float ADCdata[128];
+float ADCdata[512];
 
 void wave(float freq){
 
@@ -151,20 +151,20 @@ int main(){
             
             uLCD.color(RED);
             
-            fqidx = 0.0001 * i;  //0.0001 = 5Hz
-            
+            fqidx = 0.001 * i;  //0.0001 = 5Hz
+            wave(fqidx);
 
             
             //using J~~~
             for (j = 0; j < sample; j++){
-                wave(fqidx);
-                ADCdata[j] = Ain;
-                ThisThread::sleep_for(1000ms/sample);
+                
+                ADCdata[j] = Ain.read();
+                ThisThread::sleep_for(30ms/sample);
               }
             
             for (j = 0; j < sample; j++){
                 printf("%f\r\n", ADCdata[j]);
-                ThisThread::sleep_for(100ms);
+                ThisThread::sleep_for(1ms);
              }
             
             

@@ -28,7 +28,7 @@ void wave(float freq){
 
 int main(){
 
-      float fqidx = 0.0001 * 3;
+      float fqidx = 0.001 * 7;
 
       while(1){
             
