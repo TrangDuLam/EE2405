@@ -8,6 +8,9 @@ uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
 AnalogOut aout(PA_4);  //D7
 
 
+EventQueue queue(32 * EVENTS_EVENT_SIZE);
+
+
 
 const double peak = 0.91f;
 
@@ -17,7 +20,7 @@ const double peak = 0.91f;
 
 void wave(float sec) {
 
-    for(float i = 0.0; i < 1.0; i = i + 0.004){   //1/240
+    for(float i = 0.0; i < 1.0; i = i + 0.0001){   //1/240
 
 
         if (i < sec/3){
@@ -123,8 +126,8 @@ int main(){
         }
 
 
+        wave(selection[i]);
 
-        ThisThread::sleep_for(809ms);
 
         uLCD.cls();
     }
