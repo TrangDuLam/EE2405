@@ -4,16 +4,21 @@
 DigitalIn mypin1(PB_2);  //D8
 DigitalIn mypin2(PB_1);  //D6
 DigitalIn mypin3(PB_0);  //D3
+InterruptIn sw3(USER_BUTTON);
 uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
 AnalogOut aout(PA_4);  //D7
-
+AnalogIn Ain(A0);
 
 EventQueue queue(32 * EVENTS_EVENT_SIZE);
-
+Thread t;
 
 
 const double peak = 0.91f;
-
+int sample = 128;
+int j;
+  
+float ADCdata[128];
+ 
 
 
 
@@ -92,6 +97,18 @@ void display(int i){
 
 }
 
+void fft(){
+
+
+    for (j = 0; j < sample; j++){
+        ADCdata[j] = Ain.read();
+        printf("%f\r\n", ADCdata[j]);
+        //ThisThread::sleep_for(1000ms/sample);
+        }
+
+
+}
+
 
 
 
@@ -101,7 +118,9 @@ int main(){
 
     float selection[4] = {0.125, 0.24, 0.5, 1};
     int i = 0, add, minus;
-
+    int permit;
+    
+    t.start(callback(&queue, &EventQueue::dispatch_forever));
 
     while(1){
         
@@ -125,8 +144,26 @@ int main(){
             display(i);
         }
 
+        permit = mypin3.read();
 
-        wave(selection[i]);
+
+        while (permit) {
+
+            permit = 1;
+
+            uLCD.text_width(4); //4X size text
+            uLCD.text_height(4);
+            uLCD.locate(4 , i);
+            uLCD.printf("O");
+            uLCD.color(RED);
+            //sw3.rise(queue.event(wave));
+            wave(selection[i]);
+            
+            sw3.rise(queue.event(fft));
+        }
+        
+        
+        
 
 
         uLCD.cls();
