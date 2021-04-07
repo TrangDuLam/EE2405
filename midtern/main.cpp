@@ -135,13 +135,16 @@ int main(){
         if (i <= 0){
             i = 0;
             display(i);
+            ThisThread::sleep_for(100ms);
         }
         else if (i >= 3){
             i = 3;
             display(i);
+            ThisThread::sleep_for(100ms);
         }
         else{
             display(i);
+            ThisThread::sleep_for(100ms);
         }
 
         permit = mypin3.read();
@@ -153,8 +156,8 @@ int main(){
 
             uLCD.text_width(4); //4X size text
             uLCD.text_height(4);
-            uLCD.locate(4 , i);
-            uLCD.printf("O");
+            uLCD.locate(3 , i);
+            uLCD.printf("V");
             uLCD.color(RED);
             //sw3.rise(queue.event(wave));
             wave(selection[i]);
