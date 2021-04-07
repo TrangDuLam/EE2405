@@ -23,7 +23,7 @@ float ADCdata[128];
 
 
 
-void wave(float sec) {
+void wave(float sec) {  //wave generating function 
 
     for(float i = 0.0; i < 1.0; i = i + 0.0001){   //1/240
 
@@ -71,6 +71,7 @@ void display(int i){
         uLCD.printf("/");
         uLCD.locate(2, 1);
         uLCD.printf("4");
+        uLCD.color(GREEN);
     }
 
     if (i == 2){
@@ -82,6 +83,7 @@ void display(int i){
         uLCD.printf("/");
         uLCD.locate(2, 2);
         uLCD.printf("2");
+        uLCD.color(GREEN);
     }
 
     if (i == 3){
@@ -89,6 +91,7 @@ void display(int i){
         uLCD.text_height(4);
         uLCD.locate(0, 3);
         uLCD.printf("1");
+        uLCD.color(GREEN);
     }
 
 
@@ -97,10 +100,10 @@ void display(int i){
 
 }
 
-void fft(){
+void fft(){     //FFT sampling
 
 
-    for (j = 0; j < sample; j++){
+    for (j = 0; j < sample; j++){  //sampling time 128
         ADCdata[j] = Ain.read();
         printf("%f\r\n", ADCdata[j]);
         //ThisThread::sleep_for(1000ms/sample);
@@ -150,19 +153,19 @@ int main(){
         permit = mypin3.read();
 
 
-        while (permit) {
+        while (permit) {  //if selecting
 
             permit = 1;
 
             uLCD.text_width(4); //4X size text
             uLCD.text_height(4);
             uLCD.locate(3 , i);
-            uLCD.printf("V");
+            uLCD.printf("V");  //selecting icon
             uLCD.color(RED);
             //sw3.rise(queue.event(wave));
             wave(selection[i]);
             
-            sw3.rise(queue.event(fft));
+            sw3.rise(queue.event(fft));   //pressing the user button to smaple
         }
         
         
