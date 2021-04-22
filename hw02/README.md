@@ -18,7 +18,7 @@
 
 ## 2. Waveform generation
 
-      The output pin of the wavefrom is assigned to PA_4 (D7)
+      The output pin of the waveform is assigned to PA_4 (D7)
 
       The remainder of the summation of my student ID is 8. Thus, we could derive the waveform in mathematic relation
       
