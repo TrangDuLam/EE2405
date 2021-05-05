@@ -1,12 +1,12 @@
 {
     "config": {
     "wifi-ssid": {
-            "help": "Andy_Hardaway_Chuang",
-            "value": "\"Andy_Hardaway_Chuang\""
+            "help": "WiFi SSID",
+            "value": "\"AHEEnthu\""
     },
     "wifi-password": {
-            "help": "6068DOSDCboss",
-            "value": "\"6068DOSDCboss\""
+            "help": "WiFi Password",
+            "value": "\"88888888\""
     }
     },
     "target_overrides": {
