@@ -8,6 +8,7 @@
 RpcDigitalOut myled1(LED1,"myled1");
 RpcDigitalOut myled2(LED2,"myled2");
 RpcDigitalOut myled3(LED3,"myled3");
+
 BufferedSerial pc(USBTX, USBRX);
 void LEDControl(Arguments *in, Reply *out);
 RPCFunction rpcLED(&LEDControl, "LEDControl");
@@ -49,8 +50,10 @@ void LEDControl (Arguments *in, Reply *out)   {
     // Have code here to call another RPC function to wake up specific led or close it.
     char buffer[200], outbuf[256];
     char strings[20];
-    int led = x;
-    int on = y;
+
+
+    int led = 3;
+    int on = 1;
     sprintf(strings, "/myled%d/write %d", led, on);
     strcpy(buffer, strings);
     RPC::call(buffer, outbuf);
@@ -59,4 +62,45 @@ void LEDControl (Arguments *in, Reply *out)   {
     } else {
         out->putData("Failed to execute LED control.");
     }
+
+    //ThisThread::sleep_for(1s);
+
+    led = 2;
+    on = 0;
+    sprintf(strings, "/myled%d/write %d", led, on);
+    strcpy(buffer, strings);
+    RPC::call(buffer, outbuf);
+    if (success) {
+        out->putData(buffer);
+    } else {
+        out->putData("Failed to execute LED control.");
+    }
+
+    ThisThread::sleep_for(1s);
+
+    led = 3;
+    on = 0;
+    sprintf(strings, "/myled%d/write %d", led, on);
+    strcpy(buffer, strings);
+    RPC::call(buffer, outbuf);
+    if (success) {
+        out->putData(buffer);
+    } else {
+        out->putData("Failed to execute LED control.");
+    }
+
+    //ThisThread::sleep_for(1s);
+
+    led = 2;
+    on = 1;
+    sprintf(strings, "/myled%d/write %d", led, on);
+    strcpy(buffer, strings);
+    RPC::call(buffer, outbuf);
+    if (success) {
+        out->putData(buffer);
+    } else {
+        out->putData("Failed to execute LED control.");
+    }
+
+    //ThisThread::sleep_for(1s);
 }
