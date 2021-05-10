@@ -10,9 +10,11 @@ RpcDigitalOut myled2(LED2,"myled2");
 RpcDigitalOut myled3(LED3,"myled3");
 
 BufferedSerial pc(USBTX, USBRX);
-void LEDControl(Arguments *in, Reply *out);
-RPCFunction rpcLED(&LEDControl, "LEDControl");
-double x, y;
+void LEDControl01(Arguments *in, Reply *out);
+void LEDControl02(Arguments *in, Reply *out);
+RPCFunction rpcLED01(&LEDControl01, "LED01");
+RPCFunction rpcLED02(&LEDControl02, "LED02");
+
 
 int main() {
     //The mbed RPC classes are now wrapped to create an RPC enabled version - see RpcClasses.h so don't add to base class
@@ -40,21 +42,19 @@ int main() {
 }
 
 // Make sure the method takes in Arguments and Reply objects.
-void LEDControl (Arguments *in, Reply *out)   {
+void LEDControl01 (Arguments *in, Reply *out)   {
     bool success = true;
 
     // In this scenario, when using RPC delimit the two arguments with a space.
-    x = in->getArg<double>();
-    y = in->getArg<double>();
+    //x = in->getArg<double>();
+    //y = in->getArg<double>();
 
     // Have code here to call another RPC function to wake up specific led or close it.
     char buffer[200], outbuf[256];
     char strings[20];
 
 
-    int led = 3;
-    int on = 1;
-    sprintf(strings, "/myled%d/write %d", led, on);
+    sprintf(strings, "/myled%d/write %d", 3, 1);
     strcpy(buffer, strings);
     RPC::call(buffer, outbuf);
     if (success) {
@@ -63,11 +63,7 @@ void LEDControl (Arguments *in, Reply *out)   {
         out->putData("Failed to execute LED control.");
     }
 
-    //ThisThread::sleep_for(1s);
-
-    led = 2;
-    on = 0;
-    sprintf(strings, "/myled%d/write %d", led, on);
+    sprintf(strings, "/myled%d/write %d", 2, 0);
     strcpy(buffer, strings);
     RPC::call(buffer, outbuf);
     if (success) {
@@ -76,11 +72,24 @@ void LEDControl (Arguments *in, Reply *out)   {
         out->putData("Failed to execute LED control.");
     }
 
-    ThisThread::sleep_for(1s);
+    
 
-    led = 3;
-    on = 0;
-    sprintf(strings, "/myled%d/write %d", led, on);
+}
+
+
+
+void LEDControl02 (Arguments *in, Reply *out)   {
+    bool success = true;
+
+    // In this scenario, when using RPC delimit the two arguments with a space.
+    //x = in->getArg<double>();
+    //y = in->getArg<double>();
+
+    // Have code here to call another RPC function to wake up specific led or close it.
+    char buffer[200], outbuf[256];
+    char strings[20];
+
+    sprintf(strings, "/myled%d/write %d", 3, 0);
     strcpy(buffer, strings);
     RPC::call(buffer, outbuf);
     if (success) {
@@ -89,11 +98,8 @@ void LEDControl (Arguments *in, Reply *out)   {
         out->putData("Failed to execute LED control.");
     }
 
-    //ThisThread::sleep_for(1s);
 
-    led = 2;
-    on = 1;
-    sprintf(strings, "/myled%d/write %d", led, on);
+    sprintf(strings, "/myled%d/write %d", 2, 1);
     strcpy(buffer, strings);
     RPC::call(buffer, outbuf);
     if (success) {
@@ -102,5 +108,6 @@ void LEDControl (Arguments *in, Reply *out)   {
         out->putData("Failed to execute LED control.");
     }
 
-    //ThisThread::sleep_for(1s);
+    
+
 }
