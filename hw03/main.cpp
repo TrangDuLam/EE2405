@@ -47,8 +47,8 @@ RpcDigitalOut myled3(LED3,"myled3");
 BufferedSerial pc(USBTX, USBRX);
 void GestureControl(Arguments *in, Reply *out);
 void AngleDetect(Arguments *in, Reply *out);
-RPCFunction GestureUI(&LEDControl01, "Gesture");
-RPCFunction AngleDetect(&LEDControl02, "Angle");
+RPCFunction GestureUI(&GestureControl, "Gesture");
+RPCFunction AngleDetect(&AngleDetect, "Angle");
 
 
 // Create an area of memory to use for input, output, and intermediate arrays.
@@ -136,7 +136,30 @@ void close_mqtt() {
 
 
  
-int main(int argc, char* argv[]) {
+int main() {
+
+     //The mbed RPC classes are now wrapped to create an RPC enabled version - see RpcClasses.h so don't add to base class
+
+    // receive commands, and send back the responses
+    char buf[256], outbuf[256];
+
+    FILE *devin = fdopen(&pc, "r");
+    FILE *devout = fdopen(&pc, "w");
+
+    while(1) {
+        memset(buf, 0, 256);
+        for (int i = 0; ; i++) {
+            char recv = fgetc(devin);
+            if (recv == '\n') {
+                printf("\r\n");
+                break;
+            }
+            buf[i] = fputc(recv, devout);
+        }
+        //Call the static call method on the RPC class
+        RPC::call(buf, outbuf);
+        printf("%s\r\n", outbuf);
+    }
  
 
 }
