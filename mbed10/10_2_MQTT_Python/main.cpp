@@ -25,6 +25,7 @@
   EventQueue mqtt_queue;
 
   void messageArrived(MQTT::MessageData& md) {
+
       MQTT::Message &message = md.message;
       char msg[300];
       sprintf(msg, "Message arrived: QoS%d, retained %d, dup %d, packetID %d\r\n", message.qos, message.retained, message.dup, message.id);
@@ -37,11 +38,13 @@
   }
 
   void publish_message(MQTT::Client<MQTTNetwork, Countdown>* client) {
+      
+     
       message_num++;
       MQTT::Message message;
       char buff[100];
       BSP_ACCELERO_AccGetXYZ(pDataXYZ);
-      sprintf(buff, "Qos0 %d, %d, %d", pDataXYZ[0], pDataXYZ[1], pDataXYZ[2]);
+      //sprintf(buff, "Qos0 %d", pDataXYZ[2] );
       message.qos = MQTT::QOS0;
       message.retained = false;
       message.dup = false;
@@ -49,8 +52,25 @@
       message.payloadlen = strlen(buff) + 1;
       int rc = client->publish(topic, message);
 
+      if (pDataXYZ[2] > 855){
+        sprintf(buff, "< 30");
+      }
+
+      else if (pDataXYZ[2] > 699 && pDataXYZ[2] < 855){
+        sprintf(buff, "30 ~ 45");
+      }
+
+      else if(pDataXYZ[2] > 494 && pDataXYZ[2] < 699){
+        sprintf(buff, "45~60");
+      }
+
+      else {
+        sprintf(buff, "> 60");
+      }
+
       printf("rc:  %d\r\n", rc);
       printf("Puslish message: %s\r\n", buff);
+      
   }
 
   void close_mqtt() {
