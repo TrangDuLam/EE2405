@@ -47,7 +47,7 @@
       //sprintf(buff, "Qos0 %d", pDataXYZ[2] );
       message.qos = MQTT::QOS0;
       message.retained = false;
-      message.dup = false;
+      message.dup = false;                                   
       message.payload = (void*) buff;
       message.payloadlen = strlen(buff) + 1;
       int rc = client->publish(topic, message);
