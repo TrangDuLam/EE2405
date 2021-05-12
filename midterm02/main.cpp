@@ -2,6 +2,7 @@
 #include "mbed_rpc.h"
 #include <string.h>
 #include <vector>
+#include <math.h>
 
 #include "MQTTNetwork.h"
 #include "MQTTmbed.h"
@@ -24,7 +25,7 @@
 
 #include "mbed_events.h"
 using namespace std::chrono;
-//heading import endline ******************************start********************************************
+//headers import endline ******************************start********************************************
 
 
 //variable declaration 
@@ -39,15 +40,24 @@ const char* topic = "Mbed";
 Thread mqtt_thread(osPriorityHigh);
 EventQueue mqtt_queue;
 
-InterruptIn btn2(USER_BUTTON);
-EventQueue queue(32 * EVENTS_EVENT_SIZE);
-Thread t;
-
-
 int16_t pDataXYZ[3] = {0}; //accelaration data declaration
-InterruptIn btnRecord(USER_BUTTON);
+InterruptIn btn(USER_BUTTON);
 EventQueue queue(32 * EVENTS_EVENT_SIZE);
 Thread t;
+
+DigitalOut led1(LED1);
+DigitalOut led2(LED2);
+DigitalOut led3(LED3);
+
+//rpc control 
+RpcDigitalOut myled1(LED1,"myled1");
+RpcDigitalOut myled2(LED2,"myled2");
+RpcDigitalOut myled3(LED3,"myled3");
+BufferedSerial pc(USBTX, USBRX);
+void rpcstage01(Arguments *in, Reply *out);
+RPCFunction rpcges(&GestureCapture, "rpcstage01"); //screen type => /rpcstage01/run 1
+void rpcstage02(Arguments *in, Reply *out)
+RPCFunction rpcfex(&FeatureExtract, "rpcstage02"); //RPCFunction name cannot be the same
 
 
 
@@ -92,7 +102,6 @@ void GestureCapture(){
       gesture_index = PredictGesture(interpreter->output(0)->data.f);
       if (gesture_index != 2){
           demoGes = gesture_index;
-          uLCD_illu_gesture();
       }
 
       // Clear the buffer next time we read data
@@ -112,19 +121,24 @@ void GestureCapture(){
 
 }
 
-/*
-int FeatureExtract(){
+
+int FeatureExtract(int gesacc){
+
+    length = sizeof(ges)/sizeof(ges[0]);
+
+    x_a = gesacc[0];
+    y_a = gesacc[1];
+    z_a = gesacc[2];
+    
 
 
 
-
-
-
-
+    
+    return;
 
 }
 
-*/
+
 
 int PredictGesture(float* output) {
      // How many times the most recent gesture has been matched in a row
@@ -167,16 +181,7 @@ int PredictGesture(float* output) {
 
 
 
-//rpc control 
-RpcDigitalOut myled1(LED1,"myled1");
-RpcDigitalOut myled2(LED2,"myled2");
-RpcDigitalOut myled3(LED3,"myled3");
-BufferedSerial pc(USBTX, USBRX);
-void rpcstage01(Arguments *in, Reply *out);
-RPCFunction rpcges(&GestureCapture, "rpcstage01"); //string cmp user's input
-void rpcstage02(Arguments *in, Reply *out)
-RPCFunction rpcLE(&FeatureExtract, "rpcstage02"); //RPCFunction name cannot be the same
-
+//rpc control function
 void rpccon(){
     //The mbed RPC classes are now wrapped to create an RPC enabled version - see RpcClasses.h so don't add to base class
 
@@ -453,7 +458,7 @@ int main(){
 
 
 //RPC function declaration******************************************
-void rpcstage01(Arguments *in, Reply *out){
+void rpcstage01(Arguments *in, Reply *out){  
 
     mode = in->getArg<double>();
     eventQueue.call(GestureCapture);
@@ -465,7 +470,7 @@ void rpcstage01(Arguments *in, Reply *out){
 void rpcstage02(Arguments *in, Reply *out){
 
     mode = in->getArg<double>();
-    eventQueue.call(GestureCapture);
+    eventQueue.call(FeatureExtract);
     //mqtt_thread.join(); //start(callback(&mqtt_queue, &EventQueue::break_dispatch));
     eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
 
