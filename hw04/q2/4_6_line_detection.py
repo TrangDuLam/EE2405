@@ -1,4 +1,4 @@
-import pyb, sensor, image, time
+import pyb, sensor, image, time, math
 
 uart = pyb.UART(3,9600,timeout_char=1000)
 uart.init(9600,bits=8,parity = None, stop=1, timeout_char=1000)
@@ -26,10 +26,14 @@ while(True):
    # `max_theta_diff` controls the maximum amount of rotation difference between
    # any two lines about to be merged. The default setting allows for 15 degrees.
 
-   for l in img.find_line_segments(merge_distance = 0, max_theta_diff = 5):
+   for l in img.find_line_segments(threshold = 1000, ):
       img.draw_line(l.line(), color = (255, 0, 0))
 
-   print_args = (l.x1(), l.y1(), l.x2(), l.y2())
-   uart.write(("x1 : %f, y1 : %f, x2 : %f, y2 : %f\r\n" % print_args).encode())
+      pos = (l.x1(), l.y1(), l.x2(), l.y2())
+
+      disleft = math.sqrt( (l.x1() - l.x2()) ** 2 + (1.y1() - l.y2())**2 )
+
+      print("x1 : %f, y1 : %f, x2 : %f, y2 : %f\r\n" %pos)
+      print("Distance left : %f \r\n" %disleft)
 
    #print("FPS %f" % clock.fps())

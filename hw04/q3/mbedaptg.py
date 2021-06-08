@@ -35,14 +35,11 @@ while(True):
       angle = degrees(tag.y_rotation())
 
       if angle < 10 or angle > 350 :
-        print_args = (dis)
-        uart.write(("Distance : %f, Is perpendicular" % print_args).encode())
+        print("Distance %f, Is Perpendicular\r\n" %dis)
       elif angle > 10 and angle < 90 :
-        print_args = (dis)
-        uart.write(("Distance : %f, Is left" % print_args).encode())
+        print("Distance %f, Is Left\r\n" %dis)
       elif angle > 270 and angle < 350 :
-        print_args = (dis)
-        uart.write(("Distance : %f, Is right" % print_args).encode())
+        print("Distance %f, Is Right\r\n" %dis)
 
 
 
