@@ -14,6 +14,8 @@ DigitalInOut ping(D11);
 
 void ultrasound(Arguments *in, Reply *out);
 RPCFunction ultrarpc(&ultrasound, "ultra");
+void mvision(Arguments *in, Reply *out);
+RPCFunction mvisionrpc(&mvision, "mv");
 
 BBCar car(pin5, pin6, servo_ticker);
 
@@ -22,7 +24,6 @@ int main() {
    char buf[256], outbuf[256];
    FILE *devin = fdopen(&pc, "r");
    FILE *devout = fdopen(&pc, "w");
-   uart.set_baud(9600);
 
 
    while (1) {
@@ -69,5 +70,26 @@ void ultrasound(Arguments *in, Reply *out){
    ThisThread::sleep_for(1s);
 
 
+
+}
+
+void mvision(Arguments *in, Reply *out){
+
+   uart.set_baud(9600);
+
+   bool quota = true;
+
+   while(uart.readable() & quota){
+   
+         char recv[1];
+         uart.read(recv, sizeof(recv));
+         pc.write(recv, sizeof(recv));
+
+         quota++;
+
+   }
+
+   ThisThread::sleep_for(1s);
+   
 
 }

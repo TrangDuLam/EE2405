@@ -34,12 +34,15 @@ while(True):
       dis = math.sqrt(x * x + y * y + z * z)
       angle = degrees(tag.y_rotation())
 
-      if angle < 10 or angle > 350 :
-        print("Distance %f, Is Perpendicular\r\n" %dis)
-      elif angle > 10 and angle < 90 :
-        print("Distance %f, Is Left\r\n" %dis)
-      elif angle > 270 and angle < 350 :
-        print("Distance %f, Is Right\r\n" %dis)
+      if angle < 5 or angle > 355 :
+        uart.write(("Distance %f, Is Perpendicular\r\n"  %dis).encode())
+        time.sleep(1)
+      elif angle > 5 and angle < 90 :
+        uart.write(("Distance %f, Is left\r\n"  %dis).encode())
+        time.sleep(1)
+      elif angle > 270 and angle < 355 :
+        uart.write(("Distance %f, Is right\r\n"  %dis).encode())
+        time.sleep(1)
 
 
 

@@ -34,6 +34,9 @@ def get():
             s.write("/turn/run 100 0.3 \n".encode())
         time.sleep(1)
         s.write("/stop/run \n".encode())
+    elif k=='l':
+        print("line detecting ...")
+        s.write("/lindect/run \n".encode())
     elif k=='q':
         print ("quit")
         return 0

@@ -34,6 +34,14 @@ def get():
             s.write("/turn/run 100 0.3 \n".encode())
         time.sleep(1)
         s.write("/stop/run \n".encode())
+    elif k=='p':
+        print("ping detecting ...")
+        s.write("/ultra/run \n".encode())
+        return 1
+    elif k=='m' :
+        print("mv detecting ...")
+        s.write("/mv/run \n".encode())
+        return 1
     elif k=='q':
         print ("quit")
         return 0
