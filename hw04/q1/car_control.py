@@ -23,6 +23,8 @@ def get():
         if k3=='A':
             print ("up")
             s.write("/goStraight/run 100 \n".encode())
+            print("speed detecting ...")
+            s.write("/rott/run \n".encode())
         if k3=='B':
             print ("down")
             s.write("/goStraight/run -100 \n".encode())
@@ -34,6 +36,9 @@ def get():
             s.write("/turn/run 100 0.3 \n".encode())
         time.sleep(1)
         s.write("/stop/run \n".encode())
+    elif k=='r':
+        print("speed detecting ...")
+        s.write("/rott/run \n".encode())
     elif k=='q':
         print ("quit")
         return 0
