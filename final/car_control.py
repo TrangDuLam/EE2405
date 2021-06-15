@@ -35,7 +35,7 @@ def get():
         time.sleep(1)
         s.write("/stop/run \n".encode())
     elif k=='o':
-        print("start ...")
+        print("start turning...")
         s.write("/turn/run 100 -0.3 \n".encode())
         s.write("/goStraight/run 50 \n".encode())
         s.write("/turn/run 100 0.3 \n".encode())
@@ -44,7 +44,9 @@ def get():
         s.write("/goStraight/run 50 \n".encode())
         s.write("/turn/run 100 0.3 \n".encode())
         s.write("/goStraight/run 50 \n".encode())
-        return 1
+    elif k=='b' :
+        print("brake")
+        s.write("/stop/run \n".encode())        
     elif k=='q':
         print ("quit")
         return 0

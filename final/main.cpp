@@ -9,27 +9,25 @@ Timer t;
 
 PwmOut pin5(D5), pin6(D6);
 BufferedSerial pc(USBTX, USBRX);
-BufferedSerial uart(D1,D0); //tx,rx
+BufferedSerial xbee(D1, D0); //tx, rx
 DigitalInOut ping(D11);
 
 void ultrasound(Arguments *in, Reply *out);
 RPCFunction ultrarpc(&ultrasound, "ultra");
-void mvision(Arguments *in, Reply *out);
-RPCFunction mvisionrpc(&mvision, "mv");
+//void mvision(Arguments *in, Reply *out);
+//RPCFunction mvisionrpc(&mvision, "mv");
 
 BBCar car(pin5, pin6, servo_ticker);
 
 
 int main() {
+   
    char buf[256], outbuf[256];
-   FILE *devin = fdopen(&pc, "r");
-   FILE *devout = fdopen(&pc, "w");
-
-
+   FILE *devin = fdopen(&xbee, "r");
+   FILE *devout = fdopen(&xbee, "w");
    while (1) {
       memset(buf, 0, 256);
       for( int i = 0; ; i++ ) {
-         
          char recv = fgetc(devin);
          if(recv == '\n') {
             printf("\r\n");
@@ -38,13 +36,10 @@ int main() {
          buf[i] = fputc(recv, devout);
       }
       RPC::call(buf, outbuf);
-      printf("%s\r\n", outbuf);
-
-
-      
    }
-}
 
+
+}
 
 void ultrasound(Arguments *in, Reply *out){
 
@@ -73,6 +68,7 @@ void ultrasound(Arguments *in, Reply *out){
 
 }
 
+/*
 void mvision(Arguments *in, Reply *out){
 
    uart.set_baud(9600);
@@ -93,3 +89,4 @@ void mvision(Arguments *in, Reply *out){
    
 
 }
+*/
