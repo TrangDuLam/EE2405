@@ -42,9 +42,9 @@ while(True):
       pos = (l.x1(), l.y1(), l.x2(), l.y2())
       disleft = math.sqrt( (l.x1() - l.x2()) ** 2 + (l.y1() - l.y2())**2 )
 
-      print("x1 : %f, y1 : %f, x2 : %f, y2 : %f\r\n" %pos)
-      print("Distance left : %f \r\n" %disleft)
-      time.sleep(0.5)
+   print("x1 : %f, y1 : %f, x2 : %f, y2 : %f\r\n" %pos)
+   print("Distance left : %f \r\n" %disleft)
+
 
 
    for tag in img.find_apriltags(fx=f_x, fy=f_y, cx=c_x, cy=c_y): # defaults to TAG36H11
@@ -68,7 +68,6 @@ while(True):
       elif angle > 270 and angle < 355 :
         print("Distance %f, Is right\r\n"  %dis)
         time.sleep(1)
-
 
 
    #print("FPS %f" % clock.fps())
