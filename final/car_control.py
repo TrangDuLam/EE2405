@@ -37,13 +37,13 @@ def get():
     elif k=='o':
         print("start turning...")
         s.write("/turn/run 100 -0.3 \n".encode())
-        s.write("/goStraight/run 50 \n".encode())
+        s.write("/goStraight/run 80 \n".encode())
         s.write("/turn/run 100 0.3 \n".encode())
-        s.write("/goStraight/run 50 \n".encode())
+        s.write("/goStraight/run 80 \n".encode())
         s.write("/turn/run 100 0.3 \n".encode())
-        s.write("/goStraight/run 50 \n".encode())
+        s.write("/goStraight/run 80 \n".encode())
         s.write("/turn/run 100 0.3 \n".encode())
-        s.write("/goStraight/run 50 \n".encode())
+        s.write("/goStraight/run 80 \n".encode())
     elif k=='b' :
         print("brake")
         s.write("/stop/run \n".encode())        

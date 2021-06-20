@@ -2,7 +2,7 @@
 #define PARALLAX_SERVO_H
 #include "mbed.h"
 
-#define CENTER_BASE 1500
+#define CENTER_BASE 1525
 
 class parallax_servo {
     public:
